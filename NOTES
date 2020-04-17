@@ -1,0 +1,701 @@
+SPARK-App Notes
+/opt/cloudera/parcels/SPARK2/bin/spark2-submit --name LottoSparkApp --conf spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=log4j.properties -Dhive.table.gaming_lotto_gate_facts_live=seelamd_topics.gaming_lotto_gate_facts_staging -Dhive.table.customers_detail=sbg_customers.customers_detail -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar_dim -Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -Dhive.table.lotto_game_lookup_dim=sbg_lotto.game_lookup_dim -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.lotto_transaction_facts=seelamd_lotto.lotto_transaction_facts -Dhive.table.lotto_prize_facts=seelamd_lotto.lotto_prize_facts -Dhive.table.draw_details_dim=seelamd_lotto.draw_details_dim -Dfromdate=2020-02-14 -Dtodate=2020-02-14' --driver-java-options '-Dlog4j.configuration=log4j.properties -Dhive.table.gaming_lotto_gate_facts_live=seelamd_topics.gaming_lotto_gate_facts_staging -Dhive.table.customers_detail=sbg_customers.customers_detail -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar-Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -Dhive.table.lotto_game_lookup_dim=sbg_lotto.game_lookup_dim -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.lotto_transaction_facts=seelamd_lotto.lotto_transaction_facts -Dhive.table.lotto_prize_facts=seelamd_lotto.lotto_prize_facts -Dhive.table.draw_details_dim=seelamd_lotto.draw_details_dim -Dfromdate=2020-02-14 -Dtodate=2020-02-14' --conf spark.dynamicAllocation.enabled=true --conf spark.dynamicAllocation.minExecutors=0 --conf spark.dynamicAllocation.maxExecutors=100 --num-executors 10 --executor-cores 2 --executor-memory 1G --driver-memory 1G --master yarn --deploy-mode cluster --conf spark.yarn.maxAppAttempts=1 --files /home/seelamd/log4j.properties --class com.skybet.data.eng.lotto.topic.outputs.app.Application --verbose /home/seelamd/lotto-generate-topic-outputs-spark-0.1.0-SNAPSHOT.jar
+
+
+
+scp /Users/dse01/code/lotto-generate-topic-outputs-spark/target/scala-2.11/lotto-generate-topic-outputs-spark-0.1.0-SNAPSHOT.jar seelamd@gueagw02.skybet.net:/home/seelamd/
+
+scp gaming-hub-spins-generate-facts-spark-0.1.0-SNAPSHOT.jar ssh seelamd@gueahdpkrbtstslv01.skybet.net:/home/seelamd/
+
+
+gueahdpkrbedgetst01
+scp /Users/dse01/code/DGAM-1220/gaming-hub-spins-generate-facts-spark/target/scala-2.11/gaming-hub-spins-generate-facts-spark-0.1.0-SNAPSHOT.jar seelamd@gueagw02.skybet.net:/home/seelamd/
+
+
+
+/opt/cloudera/parcels/SPARK2/bin/spark2-submit --name SpinFactsSparkAppTest --conf spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=log4j.properties -Dhive.table.hub_spins_raw=test_topics.hub_spins_raw -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar -Dhive.table.channel_codes_dim=test_reference.channel_codes_dim -Dhive.table.customers_detail=agbajec_customers.customers_detail -Dhive.table.games_catalogue=seelamd_gaming.game_catalogue -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.hub_spin_facts=seelamd_gaming.hub_spin_facts2 -Dfromdate=2020-04-06 -Dtodate=2020-04-06 -Dslidewindow=15' --driver-java-options '-Dlog4j.configuration=log4j.properties -Dhive.table.hub_spins_raw=test_topics.hub_spins_raw -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar -Dhive.table.channel_codes_dim=test_reference.channel_codes_dim -Dhive.table.customers_detail=agbajec_customers.customers_detail -Dhive.table.games_catalogue=seelamd_gaming.game_catalogue -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.hub_spin_facts=seelamd_gaming.hub_spin_facts2 -Dfromdate=2020-04-06 -Dtodate=2020-04-06' --conf spark.dynamicAllocation.enabled=true --conf spark.dynamicAllocation.minExecutors=0 --conf spark.dynamicAllocation.maxExecutors=100 --num-executors 10 --executor-cores 2 --executor-memory 1G --driver-memory 1G --master yarn --deploy-mode cluster --conf spark.yarn.maxAppAttempts=1 --files /home/seelamd/log4j.properties --class com.skybet.data.eng.gaming.hub.spins.topic.outputs.app.Application --verbose /home/seelamd/gaming-hub-spins-generate-facts-spark-0.1.0-SNAPSHOT.jar
+
+
+
+
+
+
+
+
+yarn logs -applicationId application_1582629405090_5400
+
+
+calendar_dim
+
+  /opt/cloudera/parcels/SPARK2/bin/spark2-submit --name SpinFactsSparkApp --conf spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=log4j.properties -Dhive.table.hub_spins_raw= test_topics.hub_spins_raw -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar_dim -Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -agbajec_customers.customers_detail -Dhive.table.lotto_game_lookup_dim=seelamd_gaming.game_catalogue -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.hub_spin_facts=seelamd_gaming.hub_spin_facts -Dfromdate=2020-04-06 -Dtodate=2020-04-06' --driver-java-options '-Dlog4j.configuration=log4j.properties -Dhive.table.hub_spins_raw= test_topics.hub_spins_raw -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar_dim -Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -agbajec_customers.customers_detail -Dhive.table.lotto_game_lookup_dim=seelamd_gaming.game_catalogue -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.hub_spin_facts=seelamd_gaming.hub_spin_facts -Dfromdate=2020-04-06 -Dtodate=2020-04-06' --conf spark.dynamicAllocation.enabled=true --conf spark.dynamicAllocation.minExecutors=0 --conf spark.dynamicAllocation.maxExecutors=100 --num-executors 10 --executor-cores 2 --executor-memory 1G --driver-memory 1G --master yarn --deploy-mode cluster --conf spark.yarn.maxAppAttempts=1 --files /home/seelamd/log4j.properties --class com.skybet.data.eng.gaming.hub.spins.topic.outputs.app.Application --verbose /home/seelamd/gaming-hub-spins-generate-facts-spark-0.1.0-SNAPSHOT.jar
+
+
+2
+
+
+import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.Dataset
+
+
+import java.sql.Timestamp
+import java.time.{LocalDateTime, ZonedDateTime}
+
+val rowUpdateDate: Timestamp  = Timestamp.valueOf(ZonedDateTime.now().toLocalDateTime)
+val currentRowDate: Timestamp = Timestamp.valueOf(LocalDateTime.of(9999, 1, 1, 0, 0, 0))
+
+
+val stat = spark.sql(" SELECT * FROM sbg_lotto.status_dim ").toDF
+
+val test = spark.sql("select * from seelamd_lotto.testDim_file").toDF
+
+case class StatusDimFile (
+                             status_id: Int,
+                             status: String,
+                             status_outcome: String
+                           )
+ 
+
+case class StatusDimTable (
+                             status_id: Int,
+                             status: String,
+                             status_outcome: String,
+                             valid_from: Timestamp,
+                             valid_to: Timestamp,
+                             active_ind: Int
+                           )
+							 
+val statDS = stat.as[StatusDimTable]
+val testDS = test.as[StatusDimFile]
+
+		npsdataengprodslv01.skybet.net					 
+							 
+
+val result: Dataset[StatusDimTable] =  testDS.groupByKey(x => (x.status, x.status_outcome)).cogroup(statDS.filter("active_ind = 1").groupByKey(x => (x.status, x.status_outcome))) {
+        case (_,testDS, statDS) =>
+          (file.toSeq.headOption, stat.toSeq.headOption) match {
+            case (Some(f), some(t)) if f.status != t.status  =>
+			//new record
+              Iterator(
+               // StatusDimTable(t.status_id, t.status, t.status_outcome, t.valid_from, rowUpdateDate, 0),
+                StatusDimTable(-1, t.status, t.status_outcome, rowUpdateDate, currentRowDate, 1)
+				)
+            case (Some(f), Some(t)) if f.status == t.status && f.status_outcome != t.status_outcome =>
+              Iterator(
+			   StatusDimTable(t.status_id, t.status, t.status_outcome, t.valid_from, rowUpdateDate, 0),
+			   StatusDimTable(-1, t.status, t.status_outcome, rowUpdateDate, currentRowDate, 1))
+            case (Some(f), Some(t)) if f.status == t.status && f.status_outcome == t.status_outcome =>
+              // File Only - n
+              Iterator( StatusDimTable(t.status_id, t.status, t.status_outcome, t.valid_from, t.valid_to, 0)
+		  )
+		  }
+	  }
+					 
+	  val result =  testDS.groupByKey(x => (x.status, x.status_outcome)).cogroup(statDS.filter("active_ind = 1").groupByKey(x => (x.status, x.status_outcome)))
+	  
+	  ((_, it1, _) => it1)
+	  
+	  
+	  testDS.goupByKey(row => row.getString(0) + row.getString(1))
+		   
+		   				
+				
+val result: Dataset[StatusDimTable] = testDS.groupByKey(x => (x.status, x.status_outcome)).cogroup(statDS.filter(a => a.active_ind == 1).groupByKey(x => (x.status, x.status_outcome)) {
+        case (_,file, stat) =>
+          (file.toSeq.headOption, table.toSeq.headOption) match {
+            case (Some(f), _) =>
+              // Changed - invalidate original, add new record
+              println("working??")
+		  }
+	  }
+			  
+testDS.groupByKey(_.status).cogroup(statDS.filter(a => a.active_ind == 1).groupByKey(_.status)) match{
+        case (_, file, stat) => 
+          (file.toSeq.headOption, table.toSeq.headOption) match {
+            case (Some(f), Some(t)) if f.status != t.status && f.status_outcome != t.status_outcome =>
+              // Changed - invalidate original, add new record
+              Iterator(
+                StatusDimTable(t.status_id, t.status, t.status_outcome, t.valid_from, rowUpdateDate, 0),
+                StatusDimTable(-1, t.status, t.status_outcome, rowUpdateDate, currentRowDate, 1)
+              )	}}.show()			  
+			  
+			  
+			  				
+scalaVersion := "2.11.12"
+
+val sparkVersion = "2.4.3"
+
+libraryDependencies ++= Seq(
+  "org.apache.spark" %% "spark-core" % sparkVersion,
+  "org.apache.spark" %% "spark-sql" % sparkVersion,
+  "org.apache.spark" %% "spark-mllib" % sparkVersion,
+  "org.apache.spark" %% "spark-streaming" % sparkVersion,
+  "org.apache.spark" %% "spark-hive" % sparkVersion,
+  "mysql" % "mysql-connector-java" % "5.1.6"
+)
+
+
+3
+
+deriv(kafka_consumergroup_lag{topic=~"(gprom_promotions|gprom_aggregated_promotion_progress)", consumergroup=~"connect-Promos.*"}[5m]) > 0
+
+deriv(kafka_consumergroup_lag{topic=~"(gaming.lotto.gate.facts.live)", consumergroup=~"(connect-.*)"}[5m])
+
+
+    expr: sum(kafka_consumergroup_lag{topic=~"gaming_promotion_(optin|product_progress)",consumergroup=~"connect-Hdfs.*"} OR kafka_consumergroup_lag{topic=~"gaming_promotion_customer_eligible",consumergroup=~"connect-NPS.*",partition=~"(0|2|4|6|8|10|12|14|16|18|20)"}) by (topic) > 3
+
+
+sum(kafka_consumergroup_lag{topic=~"(gprom_promotions)", consumergroup=~"connect-Promos.*"}) by (topic) > 0
+	  
+          more: "See metrics at prometheus and reference runbook at https://tools.skybet.net/confluence/display/DATA/Vegas+Bonus+Time+-+Support+Page"
+	  
+	  
+ git commit -m "[DGAM-858]Add monitoring alret rules for customer promos kafka-connectin prometheus."	  
+ 
+ 
+ kafka_consumergroup_lag{topic=~"(gprom_promotions)", consumergroup=~"connect-Promos.*"} 
+ 
+ 
+ 
+  - /opt/rancher/config/rules/customer-promos-kafka/*.yml
+ 
+
+ ssh -i "aws-das-ec2instance.pem" ec2-user@ec2-18-203-67-132.eu-west-1.compute.amazonaws.com
+
+
+ https://stackify.com/performance-tuning-in-sql-server-find-slow-queries/
+ 
+ 
+ https://vault.platformservices.io/v1/auth/approle/login
+ 
+ 
+ deriv(kafka_consumergroup_lag{topic="gaming.lotto.gate.facts.live", consumergroup=~"connect-.*"}[5m]) > 0
+ 
+ 
+ kafka_topic_partition_current_offset{cluster="shared", topic="gaming.lotto.gate.facts.live"}
+ 
+ 
+
+ curl -X DELETE localhost:8083/connectors/Promos-Hdfs-Sink-Test
+ 
+ 
+ create table gaminginsight.
+ 
+ 
+ 1582722116476815325
+ 
+ 
+ Our data shows the last record we received has checkpoint: 47528314, timestamp: 1582722116476815325 (Wednesday, 26 February 2020 13:01:56.476)
+
+
+
+
+
+KeeluGurram1@4
+
+nayaLyfe01
+
+RUNMODE=Prod USER=Lotto ./vinit.sh
+
+
+1183557 latest
+
+1180763
+1180764 = 10
+
+
+
+2020-03-03 22:00:08
+
+ssh-keygen -t rsa -C "seelamd@gueahdpkrbtstslv01.skybet.net"
+
+
+log4j.rootLogger=INFO, stdout, file
+
+### 1
+We have the following two tables
+
+ORDERS
+customer_id
+order_item_id 
+country_id
+order_placed_datetime
+order_day
+
+ORDERS_REF
+order_item_id 
+country_id
+reference_data
+
+A unique order item can be identified by the combination of order_item_id and country_id.
+
+Can you write a query that would return order_item_id ,order_day, reference_data meeting all of the following conditions:
+ - Only orders in the last 7 days
+ - Reference data does not start with “1-”
+ - Only for country_id 1 
+ - The result set is de-duplicated, containing only the order_day for the most recent order for each order_item_id
+
+with jointable as select * from ORDERS left join ORDERS_REF on ORDERS.country_id = ORDERS_REF.country_id;
+
+select disctinct order_item_id ,order_day, reference_data from jointable where order_placed_datetime >= date(cast(order_placed_datetime)-7) 
+and country_id = 1 and regex(
+
+
+
+
+### 2
+Implement a function add(m1,m2) that accepts 2-D arrays as input and returns a 2-D array that is the result of matrix addition. Assume that the input array contains only integers
+
+For example given :
+
+m1 = [ [1,2], [3,4] ]
+m2 = [ [0,0], [1,2] ]
+
+The function should return :
+
+m = [ [1,2] , [4,6] ]
+
+
+val m = m1::m2
+m = m1 ++ m2
+
+
+
+"""df.withColumn("product_and_price", explode(arrays_zip(split(Product, '+'), split(Price, '+'))).select(
+  $"CustId", $"prodAndPrice.Product", $"prodAndPrice.Price").show()
+  """
+
+
+
+
+
+
+
+
+
+scp keystore.jks gueagw02.skybet.net
+
+
+/opt/kafka-<Tab to latest version>/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093,gueaplatkafkatst02:9093,gueaplatkafkatst03:9093,gueaplatkafkatst04:9093,gueaplatkafkatst05:9093 --describe --list <Group name>
+
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093,gueaplatkafkatst02:9093,gueaplatkafkatst03:9093,gueaplatkafkatst04:9093,gueaplatkafkatst05:9093 --describe connect-GaTE-.*
+
+scp /Users/dse01/lotto-certs/prod/keystore.jks seelamd@gueagw02.skybet.net:/home/seelamd/transit
+
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093 --describe --group connect-GaTE-.*
+
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093,gueaplatkafkatst02:9093,gueaplatkafkatst03:9093,gueaplatkafkatst04:9093,gueaplatkafkatst05:9093 --describe --group connect-Test-GaTE-Lotto-Hdfs-Sink 
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093,gueaplatkafkatst02:9093,gueaplatkafkatst03:9093,gueaplatkafkatst04:9093,gueaplatkafkatst05:9093, gueaplatkafkatst06.skybet.net:9093 --group connect-Test-GaTE-Lotto-Hdfs-Sink --reset-offsets --to-earliest --all-topics --execute
+
+
+./bin/kafka-console-consumer \
+  --bootstrap-server localhost:9092 \
+  --from-beginning \
+  --property print.key=true \
+  --topic data-lotto1-connect-offsets
+  
+ 
+ /opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --group connect-NPS-GaTE-Lotto-Hdfs-Sink --describe
+
+/opt/kafka-2.12-2.3.0/bin/kafka-run-class.sh --command-config kafka-client.conf --zookeeper gueaplatzookeeper01:2181,gueaplatzookeeper02:2181,gueaplatzookeeper03:2181,gueaplatzookeeper04:2181,gueaplatzookeeper05:2181/kafka_platform --topic data-lotto1-connect-offsets --describe
+
+
+ /opt/kafka-2.12-2.3.0/bin/ --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --topic data-lotto1-connect-offsets --max-messages 10000 --consumer-property group.id=connect-NPS-GaTE-Lotto-Hdfs-Sink > /dev/null
+
+
+export CLASSPATH="$CLASSPATH":"/opt/kafka-2.12-2.3.0/src/main/"
+
+/opt/kafka-2.12-2.3.0/bin/kafka-run-class.sh --broker-info --group connect-NPS-GaTE-Lotto-Hdfs-Sink --topic data-lotto1-connect-offsets --zookeeper gueaplatzookeeper01:2181,gueaplatzookeeper02:2181,gueaplatzookeeper03:2181,gueaplatzookeeper04:2181,gueaplatzookeeper05:2181/kafka_platform
+
+>>. /opt/kafka-2.12-2.3.0/bin/kafka-topics.sh --list --zookeeper gueaplatzookeeper01:2181,gueaplatzookeeper02:2181,gueaplatzookeeper03:2181,gueaplatzookeeper04:2181,gueaplatzookeeper05:2181/kafka_platform
+
+/opt/kafka-2.12-2.3.0/bin/kafka-topics.sh --command-config kafka-client.conf --zookeeper gueaplatzookeeper01:2181,gueaplatzookeeper02:2181,gueaplatzookeeper03:2181,gueaplatzookeeper04:2181,gueaplatzookeeper05:2181/kafka_platform --topic data-lotto1-connect-offsets --describe
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --all-groups --describe
+
+data-lotto1-connect-configs
+data-lotto1-connect-offsets
+data-lotto1-connect-status
+
+
+50117698
+50771622 
+50830235
+
+get /consumers/consumer_group_id/offsets/topic/0
+
+/opt/kafka-2.12-2.3.0/bin/kafka-console-consumer.sh --zookeeper gueaplatzookeeper01:2181,gueaplatzookeeper02:2181,gueaplatzookeeper03:2181,gueaplatzookeeper04:2181,gueaplatzookeeper05:2181/kafka_platform --topic data-lotto1-connect-offsets --from-beginning
+
+/opt/kafka-2.12-2.3.0/bin/zookeeper-shell.sh gueaplatzookeepertst01:2181
+
+kafka-consumer-groups.sh --bootstrap-server kafka-host:9092 --group my-group --reset-offsets --to-earliest --all-topics --execute
+
+
+
+ /opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --group connect-NPS-GaTE-Lotto-Hdfs-Sink --topic data-lotto1-connect-offsets --describe
+
+
+
+ kafkacat -b gueaplatkafka01:9093 -t data-lotto1-connect-offsets -C 
+ 
+ 
+ 
+ 
+ kafka-topics.sh --list --zookeeper localhost:2181
+  /opt/kafka-2.12-2.3.0/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 -topic data-lotto1-connect-offsets --time -1 
+ 
+
+
+
+gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093
+
+
+
+
+/Users/dse01/lotto-certs/prod/keystore.jks seelamd@gueagw02.skybet.net:/home/seelamd/
+
+
+
+scp /Users/dse01/lotto-certs/prod/keystore.jks seelamd@gueaplatkafkaapps01.skybet.net:/home/seelamd/
+
+
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093 --describe --group connect-GaTE-Lotto-Hdfs-Sink
+
+
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093 --group connect-GaTE-Lotto-Hdfs-Sink --reset-offsets --to-earliest --all-topics --execute
+
+
+scp /Users/dse01/code/lotto-generate-topic-outputs-spark/target/scala-2.11/lotto-generate-topic-outputs-spark-0.1.0-SNAPSHOT.jar seelamd@gueagw02.skybet.net:/home/seelamd/
+
+
+
+
+/opt/maximus/hack_deploy/datawarehouse-pidl-1.67.0/pipelines/transactions/
+
+PiDL command '-d --runmode prod --home /opt/maximus/hack_deploy/datawarehouse-pidl-1.67.0 --username transactions export_payment_detail_catchup.rb 2020-01-31
+
+
+RUNMODE=prod USER=transactions ./vinit.sh
+export RUBY_BIN=/opt/ruby_install/jruby-9.2.6.0/bin
+export PATH=$RUBY_BIN:$PATH export MAXIMUS_HOME=/opt/maximus_test/eng_pidl/common-pidl/
+
+rdbms_exporter.rb transactions.payment_detail_catchup.export
+
+
+1581091175
+
+
+
+command '-d --runmode prod --home /opt/maximus/hack_deploy/datawarehouse-pidl-1.67.0 --username transactions rdbms_exporter.rb transactions.payment_detail.import 10 '
+
+
+
+
+
+/opt/kafka-2.12-2.3.0/bin/kafka-console-consumer.sh --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter" --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --topic __consumer_offsets
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --zookeeper gueaplatzookeeper01:2181 --describe --group connect-GaTE-Lotto-Hdfs-Sink
+
+
+ /opt/kafka-2.12-2.3.0/bin/kafka-topics.sh --zookeeper gueaplatzookeeper01:2181,gueaplatzookeeper02:2181,gueaplatzookeeper03:2181,gueaplatzookeeper04:2181,gueaplatzookeeper05:2181  --delete --topic gaming.lotto.gate.facts.live 
+ 
+ 
+
+ /opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --all-groups connect-GaTE-Lotto-Hdfs-Sink --describe
+ 
+ 
+ 
+  /opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093,gueaplatkafkatst02:9093,gueaplatkafkatst03:9093,gueaplatkafkatst04:9093,gueaplatkafkatst05:9093 --reset-offsets --group connect-GaTE-Lotto-Hdfs-Sink --topic gaming.lotto.gate.facts.staging:0 --to-offset 68880 --execute
+ 
+ 
+ 
+ 
+ /opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093,gueaplatkafkatst02:9093,gueaplatkafkatst03:9093,gueaplatkafkatst04:9093,gueaplatkafkatst05:9093 --reset-offsets --group connect-GaTE-Lotto-Hdfs-Sink --topic gaming.lotto.gate.facts.staging:0 -to-datetime 2020-03-03T01:00:00.000 --execute
+ 
+ -to-datetime 2020-03-06T02:00:00.000 --execute
+ 
+ 
+ /opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093,gueaplatkafkatst02:9093,gueaplatkafkatst03:9093,gueaplatkafkatst04:9093,gueaplatkafkatst05:9093 --reset-offsets --group connect-GaTE-Lotto-Hdfs-Sink --topic gaming.lotto.gate.facts.staging:0,1,2 --by-duration P14D --execute
+ 
+ 
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafkatst01:9093,gueaplatkafkatst02:9093,gueaplatkafkatst03:9093,gueaplatkafkatst04:9093,gueaplatkafkatst05:9093 --reset-offsets --group connect-GaTE-Lotto-Hdfs-Sink --topic gaming.lotto.gate.facts.staging:0,1,2 --to-earliest --execute
+
+--reset-offsets --to-earliest --all-topics --execute
+
+
+/user/test/test/hive/warehouse-external/test_topics/lotto-gate/gaming.lotto.gate.facts.staging
+
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --describe --group connect-NPS-GaTE-Lotto-Hdfs-Sink 
+
+
+	
+curl -X GET https://schema-registry.guea.platformservices.io/subjects/gaming.lotto.gate.facts.live-value/versions/
+	
+	
+curl -X GET https://schema-registry.test.platformservices.io/subjects/gaming.lotto.gate.facts.staging-value/versions/
+
+
+https://schema-registry.test.platformservices.io
+
+
+	
+	/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --reset-offsets --group connect-GaTE-Lotto-Hdfs-Sink --topic gaming.lotto.gate.facts.staging:0 -to-datetime 2020-03-03T01:00:00.000 --execute
+	
+	
+	
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --reset-offsets --group connect-GaTE-Lotto-Hdfs-Sink --topic gaming.lotto.gate.facts.live:0,1,2 -to-datetime 2020-03-05T01:00:00.000 --execute
+
+
+/opt/kafka-2.12-2.3.0/bin/kafka-consumer-groups.sh --command-config kafka-client.conf --bootstrap-server gueaplatkafka01:9093,gueaplatkafka02:9093,gueaplatkafka03:9093,gueaplatkafka04:9093,gueaplatkafka05:9093,gueaplatkafka06:9093,gueaplatkafka07:9093,gueaplatkafka08:9093,gueaplatkafka09:9093,gueaplatkafka10:9093 --reset-offsets --group connect-GaTE-Lotto-Hdfs-Sink --topic gaming.lotto.gate.facts.live:0 --to-offset 50407747 --execute 
+
+
+
+connect-GaTE-Lotto-Hdfs-Sink gaming.lotto.gate.facts.live 0          50113689        50507747        394058          -               -               -
+connect-GaTE-Lotto-Hdfs-Sink gaming.lotto.gate.facts.live 1          50767696        51162636        394940          -               -               -
+connect-GaTE-Lotto-Hdfs-Sink gaming.lotto.gate.facts.live 2          50826219        51221237        395018          -               -               -
+
+	
+	
+	
+	
+	 hdfs://nameservice1//user/lotto/test/hive/warehouse-external/test_topics/lotto-gate/gaming.lotto.gate.facts.live/
+   
+   
+ 
+/opt/cloudera/parcels/SPARK2/bin/spark2-submit --name LottoSparkApp --conf spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=log4j.properties -Dhive.table.gaming_lotto_gate_facts_live=seelamd_topics.gaming_lotto_gate_facts_staging -Dhive.table.customers_detail=sbg_customers.customers_detail -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar_dim -Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -Dhive.table.lotto_game_lookup_dim=sbg_lotto.game_lookup_dim -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.lotto_transaction_facts=seelamd_lotto.lotto_transaction_facts -Dhive.table.lotto_prize_facts=seelamd_lotto.lotto_prize_facts -Dhive.table.draw_details_dim=seelamd_lotto.draw_details_dim -Dfromdate=2020-02-14 -Dtodate=2020-02-14' --driver-java-options '-Dlog4j.configuration=log4j.properties -Dhive.table.gaming_lotto_gate_facts_live=seelamd_topics.gaming_lotto_gate_facts_staging -Dhive.table.customers_detail=sbg_customers.customers_detail -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar-Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -Dhive.table.lotto_game_lookup_dim=sbg_lotto.game_lookup_dim -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.lotto_transaction_facts=seelamd_lotto.lotto_transaction_facts -Dhive.table.lotto_prize_facts=seelamd_lotto.lotto_prize_facts -Dhive.table.draw_details_dim=seelamd_lotto.draw_details_dim -Dfromdate=2020-02-14 -Dtodate=2020-02-14' --conf spark.dynamicAllocation.enabled=true --conf spark.dynamicAllocation.minExecutors=0 --conf spark.dynamicAllocation.maxExecutors=100 --num-executors 10 --executor-cores 2 --executor-memory 1G --driver-memory 1G --master yarn --deploy-mode cluster --conf spark.yarn.maxAppAttempts=1 --files /home/seelamd/log4j.properties --class com.skybet.data.eng.lotto.topic.outputs.app.Application --verbose /home/seelamd/lotto-generate-topic-outputs-spark-0.1.0-SNAPSHOT.jar
+
+
+
+scp /Users/dse01/code/lotto-generate-topic-outputs-spark/target/scala-2.11/lotto-generate-topic-outputs-spark-0.1.0-SNAPSHOT.jar seelamd@gueagw02.skybet.net:/home/seelamd/
+
+scp gaming-hub-spins-generate-facts-spark-0.1.0-SNAPSHOT.jar ssh seelamd@gueahdpkrbtstslv01.skybet.net:/home/seelamd/
+
+
+gueahdpkrbedgetst01
+scp /Users/dse01/code/DGAM-1220/gaming-hub-spins-generate-facts-spark/target/scala-2.11/gaming-hub-spins-generate-facts-spark-0.1.0-SNAPSHOT.jar seelamd@gueagw02.skybet.net:/home/seelamd/
+
+
+
+/opt/cloudera/parcels/SPARK2/bin/spark2-submit --name SpinFactsSparkAppTest --conf spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=log4j.properties -Dhive.table.hub_spins_raw=test_topics.hub_spins_raw -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar -Dhive.table.channel_codes_dim=test_reference.channel_codes_dim -Dhive.table.customers_detail=agbajec_customers.customers_detail -Dhive.table.games_catalogue=seelamd_gaming.game_catalogue -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.hub_spin_facts=seelamd_gaming.hub_spin_facts2 -Dfromdate=2020-04-06 -Dtodate=2020-04-06 -Dslidewindow=15' --driver-java-options '-Dlog4j.configuration=log4j.properties -Dhive.table.hub_spins_raw=test_topics.hub_spins_raw -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar -Dhive.table.channel_codes_dim=test_reference.channel_codes_dim -Dhive.table.customers_detail=agbajec_customers.customers_detail -Dhive.table.games_catalogue=seelamd_gaming.game_catalogue -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.hub_spin_facts=seelamd_gaming.hub_spin_facts2 -Dfromdate=2020-04-06 -Dtodate=2020-04-06' --conf spark.dynamicAllocation.enabled=true --conf spark.dynamicAllocation.minExecutors=0 --conf spark.dynamicAllocation.maxExecutors=100 --num-executors 10 --executor-cores 2 --executor-memory 1G --driver-memory 1G --master yarn --deploy-mode cluster --conf spark.yarn.maxAppAttempts=1 --files /home/seelamd/log4j.properties --class com.skybet.data.eng.gaming.hub.spins.topic.outputs.app.Application --verbose /home/seelamd/gaming-hub-spins-generate-facts-spark-0.1.0-SNAPSHOT.jar
+
+
+
+
+
+
+
+
+yarn logs -applicationId application_1582629405090_5400
+
+
+calendar_dim
+
+  /opt/cloudera/parcels/SPARK2/bin/spark2-submit --name SpinFactsSparkApp --conf spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=log4j.properties -Dhive.table.hub_spins_raw= test_topics.hub_spins_raw -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar_dim -Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -agbajec_customers.customers_detail -Dhive.table.lotto_game_lookup_dim=seelamd_gaming.game_catalogue -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.hub_spin_facts=seelamd_gaming.hub_spin_facts -Dfromdate=2020-04-06 -Dtodate=2020-04-06' --driver-java-options '-Dlog4j.configuration=log4j.properties -Dhive.table.hub_spins_raw= test_topics.hub_spins_raw -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar_dim -Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -agbajec_customers.customers_detail -Dhive.table.lotto_game_lookup_dim=seelamd_gaming.game_catalogue -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.hub_spin_facts=seelamd_gaming.hub_spin_facts -Dfromdate=2020-04-06 -Dtodate=2020-04-06' --conf spark.dynamicAllocation.enabled=true --conf spark.dynamicAllocation.minExecutors=0 --conf spark.dynamicAllocation.maxExecutors=100 --num-executors 10 --executor-cores 2 --executor-memory 1G --driver-memory 1G --master yarn --deploy-mode cluster --conf spark.yarn.maxAppAttempts=1 --files /home/seelamd/log4j.properties --class com.skybet.data.eng.gaming.hub.spins.topic.outputs.app.Application --verbose /home/seelamd/gaming-hub-spins-generate-facts-spark-0.1.0-SNAPSHOT.jar
+  
+{
+   "name":"GaTE-Lotto-Hdfs-Sink",
+   "config":{
+      "name":"GaTE-Lotto-Hdfs-Sink",
+      "connector.class":"io.confluent.connect.hdfs.HdfsSinkConnector",
+      "partitioner.class":"io.confluent.connect.hdfs.partitioner.TimeBasedPartitioner",
+      "partition.duration.ms":"86400000",
+      "flush.size":"100000",
+      "flush.timeout.ms":"1800000",
+      "rotate.interval.ms":"1800000",
+      "schema.compatibility":"FORWARD",
+      "hadoop.conf.dir":"/conf/hive/hive-conf",
+      "hadoop.security.authentication":"kerberos",
+      "tasks.max":"4",
+      "topics":"gaming.lotto.gate.facts.live",
+      "timezone":"UTC",
+      "locale":"UK",
+      "hdfs.url":"hdfs://nameservice1",
+      "hdfs.namenode.principal":"hdfs/_HOST@SIG.NET",
+      "hdfs.authentication.kerberos":"true",
+      "connect.hdfs.principal":"SA-Hdp-Live-Lotto@SIG.NET",
+      "connect.hdfs.keytab":"/etc/kafka-connect/secrets/connect.keytab",
+      "logs.dir":"/user/lotto/test/hive/warehouse-external/logs/lotto-gate",
+      "topics.dir":"/user/lotto/test/hive/warehouse-external/test_topics/lotto-gate",
+      "path.format":"'dt'=YYYY-MM-dd",
+      "hive.integration":"false"
+   }
+}
+
+
+SA-CM-Test-ConfigRO
+
+
+pr5klt#otR9D5?       NEW
+
+
+3!WqTND^68!%#d    OLD
+
+
+curl -X POST -H "Content-Type: application/json" --data @lotto.json localhost:8084/connectors
+curl -X DELETE localhost:8084/connectors/NPS-GaTE-Lotto-Hdfs-Sink
+
+
+{
+   "name":"test-GaTE-Lotto-Hdfs-Sink",
+   "config":{
+      "name":"test-GaTE-Lotto-Hdfs-Sink",
+      "connector.class":"io.confluent.connect.hdfs.HdfsSinkConnector",
+      "partitioner.class":"io.confluent.connect.hdfs.partitioner.TimeBasedPartitioner",
+      "partition.duration.ms":"86400000",
+      "flush.size":"100000",
+      "flush.timeout.ms":"600000",
+      "rotate.interval.ms":"600000",
+      "schema.compatibility":"NONE",
+      "hadoop.conf.dir":"/conf/hive/hive-conf",
+      "hadoop.security.authentication":"kerberos",
+      "tasks.max":"4",
+      "topics":"gaming.lotto.gate.facts.live",
+      "timezone":"UTC",
+      "locale":"UK",
+      "hdfs.url":"hdfs://nameservice1",
+      "hdfs.namenode.principal":"hdfs/_HOST@SIG.NET",
+      "hdfs.authentication.kerberos":"true",
+      "connect.hdfs.principal":"SA-Hdp-Test-Lotto@SIG.NET",
+      "connect.hdfs.keytab":"/etc/kafka-connect/secrets/connect.keytab",
+      "logs.dir":"/user/lotto/test/hive/warehouse-external/logs/lotto-gate",
+      "topics.dir":"/user/lotto/test/hive/warehouse-external/sbg_topics/lotto-gate",
+      "path.format":"'dt'=YYYY-MM-dd",
+      "hive.integration":"false"
+   }
+}
+
+
+val spin = Seq(
+    ("11111", custStruct("11111"), gameStruct("SPINLOTTO"), channelStruct("Lotto", "6"), playStruct("1", "1585152636000", "1585152636000"),
+  stakeStruct(10,0,0,0,0,0,"GBP"), winStruct(0,0,0,0,0,0,"GBP"),"2020-03-25"),
+    ("22222", custStruct("11111"), gameStruct("SPINLOTTO"), channelStruct("Bingo", "27"), playStruct("2", "1585152636000", "1585152636000"),
+      stakeStruct(0,0,0,0,0,0,"GBP"), winStruct(11,0,0,0,0,0,"GBP"),"2020-03-25"),
+    ("33333", custStruct("11111"), gameStruct("SPINLOTTO"), channelStruct("Casino", "20"), playStruct("3", "1585152636000", "1585152636000"),
+      stakeStruct(12,0,0,0,0,0,"GBP"), winStruct(13,0,0,0,0,0,"GBP"),"2020-03-25"),
+    ("44444", custStruct("11111"), gameStruct("SPINLOTTO"), channelStruct("Vegas", "14"), playStruct("4", "1585152636000", "1585152636000"),
+      stakeStruct(0,0,0,0,0,0,"GBP"), winStruct(0,14,0,0,0,0,"GBP"),"2020-03-25"))
+    .toDF("message_id","customer","game","channel","play","stake", "winnings", "dt")
+
+
+
+	spinsTopicDF,
+	    statusDF,
+		gameLookupDF,
+		calendarDF,
+		channelCodesDF
+	    customerDetailsDF,
+	    currencyDF,
+	    
+	    
+	    
+		spinF.withColumn("start_time", to_utc_timestamp(col("start_time"), "Europe/London"))
+		
+		
+		"dd-MM-yyyy HH:mm:ss.SSS"
+		
+	    test.withColumn("start_time", date_format(col("play.start_time"), "dd-MM-yyyy HH:mm:ss.SSS")).withColumn("start_time_epoch", unix_timestamp($"start_time")).show(false)
+		   
+	  
+val testDF = spark.read.table("test_topics.hub_spins_raw")
+
+testDF.write.format("com.databricks.spark.csv").save("home/seelamd/spins.csv")
+	  
+val testDF = spark.read.table("seelamd_topics.gaming_hub_spins_test2")	
+val x = testDF.withColumn("stake_column", explode(array($"stake.*"))).where("stake_column > 0")  
+val y = testDF.withColumn("win_column", explode(array($"winnings.*"))).where("win_column > 0")
+
+
+
+val calendarDF = spark.read.table("test_reference.calendar_dim").where(to_date(col("caldate")) >= to_date(lit("2020-03-20")) and
+        to_date(col("caldate")) <= to_date(lit("2020-03-20")))
+      .select("caldate")
+	  	  
+val gameCatalogueDF = spark.read.table("seelamd_gaming.game_catalogue").withColumn("game_catalogue_id", col("game_lookup_id").cast(IntegerType))
+      .withColumn("build_id", col("game_id").cast(IntegerType))
+      .where(lit("2020-03-20").cast(TimestampType) <= col("valid_to") and
+        lit("2020-03-20").cast(TimestampType) >= col("valid_from"))
+      .select("game_catalogue_id", "build_id", "valid_from", "valid_to")	  
+	  
+val currencyDF = spark.read.table("test_reference.currency_dim").where(lit("2020-03-20").cast(TimestampType) <= col("valid_to") and
+        lit("2020-03-20").cast(TimestampType) >= col("valid_from"))
+      .withColumn("currency_id", col("currency_id").cast(LongType))
+      .select("currency_id", "ccy_code", "exch_rate", "valid_from", "valid_to")
+	  
+val customerDetailsDF = spark.read.table("test_customers.customers_detail").select("cust_id", "customer_group")
+
+val channelCodesDF = spark.read.table("sbg_reference.channel_codes_dim")
+      .withColumn("channel_code_id", col("channel_code_id").cast(LongType))
+      .select("channel_code_id", "channel_id", "valid_from", "valid_to")
+
+val statusDF = spark.read.table("test_lotto.status_dim").where(lit("2020-03-20").cast(TimestampType) <= col("valid_to") and
+           lit("2020-03-20").cast(TimestampType) >= col("valid_from"))
+         .na.fill("dummy", Seq("status_outcome"))
+         .withColumn("statusjoin", concat(col("status_outcome"), lit("."),
+           col("status")))
+         .withColumn("status_id", col("status_id").cast(LongType))
+         .select("status_id", "statusjoin", "valid_from", "valid_to")
+         
+ /opt/cloudera/parcels/SPARK2/bin/spark2-submit --name PromoOptin --conf spark.sql.shuffle.partitions=3500 --conf spark.default.parallelism=3000 --conf spark.kryoserializer.buffer.max=256m --conf \ spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='\
+-Dlog4j.configuration=log4j.properties\
+-Dhive.table.promo.promos_optin=seelamd_promotions.promotions_optin\
+-Dhive.table.topics.aggregated_customer_progress_staging=seelamd_topics.aggregated_customer_progress_staging\
+-Dhive.table.topics.promos_staging=seelamd_topics.promos_staging -Dfromdate=2019-09-11\
+-Dtodate=2019-09-12 -Dslidewindow=10'\
+--driver-java-options '\
+-Dlog4j.configuration=log4j.properties\
+-Dhive.table.promo.promos_optin=seelamd_promotions.promotions_optin\ 
+-Dhive.table.topics.aggregated_customer_progress_staging=seelamd_topics.aggregated_customer_progress_staging \
+-Dhive.table.topics.promos_staging=seelamd_topics.promos_staging \
+-Dfromdate=2019-09-11\ 
+-Dtodate=2019-09-12\ 
+-Dslidewindow=10'\ 
+--conf spark.dynamicAllocation.enabled=true\ 
+--conf spark.dynamicAllocation.minExecutors=0\ 
+--conf spark.dynamicAllocation.maxExecutors=1000\ 
+--num-executors 10\
+--executor-cores 2\ 
+--executor-memory 1G\ 
+--driver-memory  1G\ 
+--master yarn\ 
+--deploy-mode cluster\ 
+--files /home/seelamd/log4j.properties\ 
+--class com.skybet.data.eng.promoplat.promoopt.app.Application --verbose /home/seelamd/promoplat-promo-optin-spark-0.1.0-SNAPSHOT.jar
+
+
+
+
+/opt/cloudera/parcels/SPARK2/bin/spark2-submit --name PromoOptin --conf spark.sql.shuffle.partitions=3500 --conf spark.default.parallelism=3000 --conf spark.kryoserializer.buffer.max=256m --conf spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=log4j.properties -Dhive.table.promo.promos_optin=seelamd_promotions.promotions_optin -Dhive.table.topics.aggregated_customer_progress_staging=seelamd_topics.aggregated_customer_progress_staging -Dhive.table.topics.promos_staging=seelamd_topics.promos_staging -Dfromdate=2019-07-20 -Dtodate=2019-07-24 -Dslidewindow=120' --driver-java-options '-Dlog4j.configuration=log4j.properties -Dhive.table.promo.promos_optin=seelamd_promotions.promotions_optin -Dhive.table.topics.aggregated_customer_progress_staging=seelamd_topics.aggregated_customer_progress_staging -Dhive.table.topics.promos_staging=seelamd_topics.promos_staging -Dfromdate=2019-07-20 -Dtodate=2019-07-24 -Dslidewindow=120' --conf spark.dynamicAllocation.enabled=true --conf spark.dynamicAllocation.minExecutors=0 --conf spark.dynamicAllocation.maxExecutors=1000 --num-executors 10 --executor-cores 2 --executor-memory 1G --driver-memory  1G --master yarn --deploy-mode cluster --files /home/seelamd/log4j.properties --class com.skybet.data.eng.promoplat.promoopt.app.Application --verbose /home/seelamd/promoplat-promo-optin-spark-0.1.0-SNAPSHOT.jar
+
+
+
+/opt/cloudera/parcels/SPARK2/bin/spark2-submit --name LottoSparkApp --conf spark.sql.catalogImplementation=hive --conf spark.hadoop.hive.exec.dynamic.partition.mode=nonstrict --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=log4j.properties -Dhive.table.gaming_lotto_gate_facts_live=sbg_topics.gaming_lotto_gate_facts_live -Dhive.table.customers_detail=sbg_customers.customers_detail -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar_dim -Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -Dhive.table.lotto_game_lookup_dim=sbg_lotto.game_lookup_dim -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.lotto_transaction_facts=seelamd_lotto.lotto_transaction_facts -Dhive.table.lotto_prize_facts=seelamd_lotto.lotto_prize_facts -Dhive.table.draw_details_dim=seelamd_lotto.draw_details_dim -Dfromdate=2020-01-31 -Dtodate=2020-02-18' --driver-java-options '-Dlog4j.configuration=log4j.properties -Dhive.table.gaming_lotto_gate_facts_live=sbg_topics.gaming_lotto_gate_facts_live -Dhive.table.customers_detail=sbg_customers.customers_detail -Dhive.table.currency_dim=sbg_reference.currency_dim -Dhive.table.calendar_dim=sbg_reference.calendar_dim -Dhive.table.channel_codes_dim=sbg_lotto.channel_codes_dim -Dhive.table.lotto_game_lookup_dim=sbg_lotto.game_lookup_dim -Dhive.table.status_dim=sbg_lotto.status_dim -Dhive.table.lotto_transaction_facts=seelamd_lotto.lotto_transaction_facts -Dhive.table.lotto_prize_facts=seelamd_lotto.lotto_prize_facts -Dhive.table.draw_details_dim=seelamd_lotto.draw_details_dim -Dfromdate=2020-01-31 -Dtodate=2020-02-18' --conf spark.dynamicAllocation.enabled=true --conf spark.dynamicAllocation.minExecutors=0 --conf spark.dynamicAllocation.maxExecutors=100 --num-executors 10 --executor-cores 2 --executor-memory 10G --driver-memory 10G --master yarn --deploy-mode cluster --conf spark.yarn.maxAppAttempts=1 --files /home/seelamd/log4j.properties --class com.skybet.data.eng.lotto.topic.outputs.app.Application --verbose /opt/maximus/jars/eng_spark/lotto-generate-topic-outputs-spark/lotto-generate-topic-outputs-spark-0.6.0.jar
+
+
+
+
+yarn logs -applicationId application_1582629405090_4533
+
+ --appOwner seelamd
+
+
+scp /Users/dse01/code/promoplat-promo-optin-spark/target/scala-2.11/promoplat-promo-optin-spark-0.1.0-SNAPSHOT.jar seelamd@gueahdpkrbtstslv01.skybet.net:/home/seelamd/
+
+ALTER TABLE seelamd_promotions.promotions_optin SET TBLPROPERTIES('EXTERNAL'='FALSE');
+
+truncate table seelamd_promotions.promotions_optin ;
+
+ALTER TABLE seelamd_promotions.promotions_optin SET TBLPROPERTIES('EXTERNAL'='TRUE'); 
+        
+         
+  
+  
+   
+   
+   
